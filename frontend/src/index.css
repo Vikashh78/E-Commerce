@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+/* to underline only slected component of navbar */
+a.active hr{
+    display: block;
+}
