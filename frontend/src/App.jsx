@@ -11,12 +11,15 @@ import PlaceOrder from './pages/PlaceOrder'
 import Products from './pages/Products'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import SearchBar from './components/SearchBar'
 
 const App = () => {
   return (
     <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
 
       <Navbar />
+      <SearchBar />
+
       <Routes>
         <Route path='/' element={<Home /> } />
         <Route path='/about' element={<About /> } />
@@ -26,10 +29,11 @@ const App = () => {
         <Route path='/login' element={<Login /> } />
         <Route path='/orders' element={<Orders /> } />
         <Route path='/place-order' element={<PlaceOrder /> } />
-        <Route path='/products/:productId' element={<Products /> } />
+        <Route path='/product/:productId' element={<Products /> } />
       </Routes>
     {/* we mounted footer here to display on all the pages */}
     <Footer />
+
     </div>
   )
 }
