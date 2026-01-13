@@ -7,10 +7,9 @@ import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
 
-  const {currency, cartItems, products, updateQuantity} = useContext(ShopContext);
+  const {currency, cartItems, products, updateQuantity, navigate} = useContext(ShopContext);
   const [cartData, setCartData] = useState([])
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     const tempData = [];
@@ -67,7 +66,7 @@ const Cart = () => {
           <CartTotal />
 
           <div className='w-full text-end'>
-            <button 
+            <button onClick={() => navigate('/place-order')}
             className='bg-black text-white text-xs my-8 py-3 px-3 cursor-pointer'>PROCEED TO CHECKOUT</button>
           </div>
         </div>
