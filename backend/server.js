@@ -6,9 +6,6 @@ import connectCloudinary from './config/cloudinary.config.js'
 import userRouter from './routes/user.routes.js'
 import productRouter from './routes/product.routes.js'
 
-
-
-<<<<<<< HEAD
 /* STEPS: BASIC
     1. import express, cors 
     2. App, port config
@@ -17,8 +14,6 @@ import productRouter from './routes/product.routes.js'
     5. server listening setup
 */
 
-=======
->>>>>>> 8d2a8213a4026422b6bfe12636973d46edd2e9ae
 //.2
 const app = express()
 const port = process.env.PORT || 4000
