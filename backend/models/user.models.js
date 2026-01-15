@@ -20,6 +20,6 @@ const userSchema = new mongoose.Schema({
         default: {}
     }
 
-},{timestamps: true}, {minimize: false}) //use to create model in DB also with empty object
+},{timestamps: true}, {minimize: false}) 
 
 export const User = mongoose.models.user || mongoose.model("User", userSchema)
