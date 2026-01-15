@@ -4,15 +4,6 @@ import 'dotenv/config.js'
 import connectDB from './config/mongodb.config.js'
 import connectCloudinary from './config/cloudinary.config.js'
 
-/* STEPS: BASIC
-    1. import express, cors 
-    2. App, port config
-    3. middleware setup
-    4. API endpoint setup
-    5. server listening setup
-*/
-
-
 //.2
 const app = express()
 const port = process.env.PORT || 4000
