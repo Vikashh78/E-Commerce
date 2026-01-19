@@ -6,8 +6,8 @@
 }
 
 select,input,textarea {
-    border: 1px solid rgb(228, 221, 221);
-    outline: #c2c2c2;
+    border: 1px solid rgb(103, 93, 93);
+    outline: #957070;
     border-radius: 4px;
 }
 
