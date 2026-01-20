@@ -8,25 +8,24 @@ const Products = () => {
 
   const {productId} = useParams(); //form url
   const {products, currency, addToCart} = useContext(ShopContext)
-  const [productData, setProductData] = useState(false)
+  const [productData, setProductData] = useState('')
   const [image, setImage] = useState('')
   const [size, setSize] = useState('')
 
-
- 
+  
   const fetchProductData = async () => {
-    products.map((item) => {
-      if(item._id === productId) {
-        setProductData(item)
-        setImage(item.image[0])
-        return null;
-      }
-    })
+    const product = products.find(item => item._id === productId)
+    if(product) {
+      setProductData(product)
+      setImage(product.image[0])
+    }
   }
 
   useEffect(() => {
-    fetchProductData();
-  }, [productId])
+    if(products.length > 0) {
+      fetchProductData();
+    }
+  }, [products, productId])
 
   return productData ? (
     <div className='border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100'>
@@ -37,7 +36,7 @@ const Products = () => {
         <div className='flex-1 flex flex-col-reverse gap-5 sm:flex-row'>
           <div className='flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[8.7%]'>
             {
-              productData.image.map((item, index) => (
+              productData?.image?.map((item, index) => (
                 <img onClick={()=>setImage(item)}
                  src={item} key={index} alt="" className='w-[24%] sm:w-full mb-3 shrink-0 cursor-pointer '/>
               ))
@@ -65,11 +64,13 @@ const Products = () => {
             <div className='flex flex-col gap-4 my-8'>
               <p>Select Size</p>
               <div className='flex gap-2'>
-                {productData.sizes.map((item, index) => (
-                  <button onClick={()=>setSize(item)} className={`border py-2 px-4 cursor-pointer bg-gray-100 ${item === size ?'border-orange-700' : '' }`} key={index}>
+                {
+                  productData?.size?.map((item, index) => (
+                    <button onClick={()=>setSize(item)} className={`border py-2 px-4 cursor-pointer bg-gray-100 ${item === size ?'border-orange-700' : '' }`} key={index}>
                     {item}
-                  </button>
-                ))}
+                    </button>
+                  ))
+                }
               </div>
             </div>
 

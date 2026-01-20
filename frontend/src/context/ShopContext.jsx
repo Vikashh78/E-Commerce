@@ -1,7 +1,8 @@
 import { createContext, useState } from "react";
-import { products } from '../assets/assets';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
+import { useEffect } from "react";
 
 // we usaully creates these context file to use these values in anywhere
 export const ShopContext = createContext();
@@ -10,9 +11,11 @@ const ShopContextProvider = (props) => {
 
     const currency = '₹';
     const delivery_fee = 40;
+    const backendURL = import.meta.env.VITE_BACKEND_URL;
     const [search, setSearch] = useState('');
     const [showSearch, setShowSearch] = useState(false);
     const [cartItems, setCartItems] = useState({});
+    const [products, setProducts] = useState([]);
     const navigate = useNavigate()
 
 
@@ -81,6 +84,23 @@ const ShopContextProvider = (props) => {
         return totalAmount;
     }
 
+    // ------- Connecting frontend with backend -------------
+    // Function to get products list
+    const getProducts = async () => {
+        try {
+            const response = await axios.get(backendURL+'/api/product/list');
+            setProducts(response.data.productList)
+            
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message)
+        }
+    }
+
+    useEffect(()=>{
+        getProducts();
+    },[])
+
  
     const value = {
         currency,
@@ -95,7 +115,8 @@ const ShopContextProvider = (props) => {
         getCartCount,
         updateQuantity,
         getCartAmount,
-        navigate
+        navigate,
+        backendURL
     }
 
     return (
