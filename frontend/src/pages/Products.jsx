@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext';
-import { assets, products } from '../assets/assets';
+import { assets } from '../assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
 
 const Products = () => {
@@ -15,6 +15,7 @@ const Products = () => {
   
   const fetchProductData = async () => {
     const product = products.find(item => item._id === productId)
+    
     if(product) {
       setProductData(product)
       setImage(product.image[0])
@@ -29,6 +30,7 @@ const Products = () => {
 
   return productData ? (
     <div className='border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100'>
+
       {/*--------- Product data ---------- */}
       <div className='flex gap-12 flex-col sm:flex-row'>
 
@@ -47,6 +49,7 @@ const Products = () => {
           </div>
 
           {/*--------------- Product Info -------------*/}
+
           {/*Flex-1 :  The element will take up all remaining available space in a flex container. */}
           <div className='flex-1'> 
             <h1 className='font-medium text-2xl mt-2'>{productData.name}</h1>
@@ -65,7 +68,8 @@ const Products = () => {
               <p>Select Size</p>
               <div className='flex gap-2'>
                 {
-                  productData?.size?.map((item, index) => (
+                  //parsing string into an Array to use map method
+                  JSON.parse(productData?.size).map((item, index) => (
                     <button onClick={()=>setSize(item)} className={`border py-2 px-4 cursor-pointer bg-gray-100 ${item === size ?'border-orange-700' : '' }`} key={index}>
                     {item}
                     </button>
