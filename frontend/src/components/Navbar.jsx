@@ -6,7 +6,16 @@ import { ShopContext } from '../context/ShopContext'
 const Navbar = () => {
 
   const [visible, setVisible] = useState(false)
-  const {setShowSearch, getCartCount, navigate} = useContext(ShopContext)
+  const {setShowSearch, getCartCount, navigate, setToken, token, setCartItems} = useContext(ShopContext)
+
+  // Logout function
+  const logoutUser = () => {
+    navigate('/login')
+    localStorage.removeItem('token')
+    setToken('');
+    setCartItems({})
+  }
+
 
   return (
     <div className='flex items-center justify-between py-5 font-medium'>
@@ -38,19 +47,21 @@ const Navbar = () => {
       </ul>
 
       <div className='flex items-center gap-6'>
-          <img onClick={()=>setShowSearch(true)} src={assets.search_icon} alt="" className='w-5 cursor-pointer'/>
+          <img onClick={token? null : ()=>navigate('/login')} src={assets.search_icon} alt="" className='w-5 cursor-pointer'/>
 
           <div className='group relative'>
             <img onClick={()=>navigate('/login')} 
               src={assets.profile_icon} alt=""  className='w-5 cursor-pointer'
             />
-            <div className='absolute right-0 pt-4 hidden group-hover:block dropdown-menu'> 
+            {/* Drowpdown menu */}
+            {token && 
+              <div className='absolute right-0 pt-4 hidden group-hover:block dropdown-menu'> 
               <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-200 text-gray-700 rounded shadow-lg'>
                 <p className='cursor-pointer hover:text-black'>My Profile</p>
-                <p className='cursor-pointer hover:text-black'>Orders</p>
-                <p className='cursor-pointer hover:text-black'>Logout</p>
+                <p onClick={()=>navigate('/orders')} className='cursor-pointer hover:text-black'>Orders</p>
+                <p onClick={logoutUser} className='cursor-pointer hover:text-black'>Logout</p>
               </div>
-            </div>
+            </div>}
           </div>
 
           <Link to="/cart" className='relative'> 

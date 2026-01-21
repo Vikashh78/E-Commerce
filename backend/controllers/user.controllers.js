@@ -30,7 +30,7 @@ const loginUser = async (req, res) => {
                 success: true,
                 data: user,
                 message: "Logged in successfully",
-                Token: token
+                token
             })
 
         } else {
