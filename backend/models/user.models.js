@@ -4,22 +4,22 @@ const userSchema = new mongoose.Schema({
     
     name: {
         type: String,
-        require: true
+        required: true
     },
     email: {
         type: String,
         unique: true,
-        require: true
+        required: true
     },
     password: {
         type: String,
-        require: true
+        required: true
     },
     cart: {
-        type: Object,
+        type: mongoose.Schema.Types.Mixed, //mixed: to type: mongoose.Schema.Types.Mixed,
         default: {}
     }
 
-},{timestamps: true}, {minimize: false}) 
+},{timestamps: true, minimize: false}) 
 
 export const User = mongoose.models.user || mongoose.model("User", userSchema)
