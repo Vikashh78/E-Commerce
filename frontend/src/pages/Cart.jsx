@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
 
-  const { currency, cartItems, products, updateQuantity, navigate } = useContext(ShopContext);
+  const { currency, cartItems, products, updateQuantity, navigate, token } = useContext(ShopContext);
   const [cartData, setCartData] = useState([])
 
 
@@ -28,7 +28,7 @@ const Cart = () => {
       setCartData(tempData)
     }
 
-  }, [cartItems, products])
+  }, [cartItems, products, token])
 
   return (
     <div className='border-t pt-14'>

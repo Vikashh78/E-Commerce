@@ -15,11 +15,11 @@ const placeOrderCOD = async (req, res) => {
             items,
             amount,
             address,
-            payment: false,
             paymentMethod: 'COD',
+            payment: false
         }
-
-        await Order.create({orderData})
+        
+        await Order.create(orderData)
 
         return res
         .status(200)
