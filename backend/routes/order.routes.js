@@ -15,6 +15,6 @@ orderRouter.post('/list', adminAuth, allOrders)
 orderRouter.post('/status', adminAuth, updateStatus)
 
 // User feature
-orderRouter.post('/user-orders', userAuth, userOrders)
+orderRouter.post('/orders', userAuth, userOrders)
 
 export default orderRouter;

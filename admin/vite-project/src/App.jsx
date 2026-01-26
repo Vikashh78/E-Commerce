@@ -27,7 +27,7 @@ const App = () => {
     <div className='bg-gray-50 max-h-screen'>
       <ToastContainer />
       { token === ""? 
-      <Login setToken={setToken} /> // assed setToken as props
+      <Login setToken={setToken} /> // passed setToken as props
       :
       <>
         <Navbar setToken={setToken} />

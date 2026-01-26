@@ -45,14 +45,50 @@ const placeOrderRazorpay = async (req, res) => {
 
 }
 
-// user all orders
+// user all orders for admin panel
 const allOrders = async (req, res) => {
-
+    try {
+        
+        const allOrdersDetails = await Order.find({});
+    
+        return res
+        .status(200)
+        .json({
+            success:true, 
+            message:"All Orders", 
+            allOrdersDetails
+        })
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({success: false, message: error.message})
+    }
 }
 
 // user order data for frontend
 const userOrders = async (req, res) => {
+    try {
+        const { userId } = req.body;
+        
+        if (!userId) {
+            return res.json({success: false, message: "Unauthorized user login again"})
+        }
+        
+        const orders = await Order.find({userId});
 
+        return res
+        .status(200)
+        .json({
+            success: true,
+            message: "Order details",
+            orders
+        })
+        
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({success: false, message: error.message})
+    }
 }
 
 // update status from admin panel

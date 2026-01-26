@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 
 const PlaceOrder = () => {
-
+  
   const [paymentMethod, setPaymentMethod] = useState('cod');
   const  {navigate, backendURL, token, cartItems, setCartItems, products, delivery_fee, getCartAmount } = useContext(ShopContext);
 
@@ -60,7 +60,7 @@ const PlaceOrder = () => {
         case 'cod': {
           const response = await axios.post(backendURL+'/api/order/cod', orderData, {headers: {token}});
           if(response.data.success) {
-            setCartItems({})
+            // setCartItems({})
             navigate('/orders')
             toast.success(response.data.message)
           } else {
