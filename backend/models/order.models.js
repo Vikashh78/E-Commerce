@@ -33,6 +33,6 @@ const orderSchema = new mongoose.Schema({
         default: false
     }
 
-}, {timeseries: true})
+}, {timestamps: true})
 
 export const Order = mongoose.model("Order", orderSchema);
