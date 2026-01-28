@@ -1,4 +1,12 @@
 import { Order } from "../models/order.models.js";
+import razorpay from 'razorpay'
+
+const currency = 'inr';
+
+const razorpayInstance = new razorpay({
+    key_id: process.env.RAZORPAY_API_KEY,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+})
 
 
 // Placing order via COD
@@ -19,7 +27,7 @@ const placeOrderCOD = async (req, res) => {
             payment: false
         }
         
-        await Order.create(orderData)
+        const newOrder = await Order.create(orderData)
 
         return res
         .status(200)
@@ -42,7 +50,52 @@ const placeOrderStripe = async (req, res) => {
 
 // Placing order via Razorpay
 const placeOrderRazorpay = async (req, res) => {
+    try {
+        const { userId, items, amount, address } = req.body
 
+        const orderData = {
+            userId,
+            items,
+            amount,
+            address,
+            paymentMethod: 'Razorpay',
+            payment: false
+        }
+
+        const newOrder = await Order.create(orderData)
+
+        const options = {
+            amount: amount*100,
+            currency: currency.toUpperCase(),
+            receipt: newOrder._id.toString(),
+        }
+
+        razorpayInstance.orders.create(options, (error, order) => {
+            if (error) {
+                return res.json({success: false, message: error.message})
+            }
+            
+            return res.json({success: true, order})
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({success: false, message: error.message})
+    }
+}
+
+const verifyRazorpay = async (req, res) => {
+    try {
+        const { userId, razorpay_order_id } = req.body
+
+        const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id)
+        console.log(orderInfo);
+        
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({success: false, message: error.message})
+    }
 }
 
 // user all orders for admin panel
@@ -119,5 +172,6 @@ export {
     placeOrderRazorpay,
     allOrders,
     userOrders,
-    updateStatus
+    updateStatus,
+    verifyRazorpay
 }

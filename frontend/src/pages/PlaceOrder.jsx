@@ -25,6 +25,23 @@ const PlaceOrder = () => {
     phone: ''
   })
 
+  const initPay = (order) => {
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_API_KEY,
+      amount: order.amount,
+      currency: order.currency,
+      name: 'Order Payment',
+      description: 'Order payment',
+      order_id: order.id,
+      receipt: order.receipt,
+      handler: async (response) => {
+        console.log(response)
+      }
+    }
+    const rzp = new window.Razorpay(options) 
+    rzp.open()
+  }
+
   const onChangeHandler = (e) => {
     const name = e.target.name
     const value = e.target.value
@@ -57,7 +74,7 @@ const PlaceOrder = () => {
       //------------- will use switch statement to call API -----------
       switch(paymentMethod) {
 
-        case 'cod': {
+        case 'cod': 
           const response = await axios.post(backendURL+'/api/order/cod', orderData, {headers: {token}});
           if(response.data.success) {
             // setCartItems({})
@@ -66,11 +83,15 @@ const PlaceOrder = () => {
           } else {
             toast.error(response.data.message)
           }
-        }
+          break;
 
-
-
+        case 'razorpay':
+          const responseRazorpay = await axios.post(backendURL+'/api/order/razorpay', orderData, {headers: {token}})
+          if(responseRazorpay.data.success) {
+            initPay(responseRazorpay.data);
+          }
         break;
+
       }
       
 
