@@ -70,7 +70,7 @@ const Orders = () => {
                     <p>Size: {item.size}</p>
                   </div>
                   <p className='mt-2'>Date: <span className='text-gray-400'>{new Date(item.updatedAt).toLocaleDateString()}</span></p>
-                  <p className='mt-2'>Date: <span className='text-gray-400'>{item.paymentMethod}</span></p>
+                  <p className='mt-2'>Payment: <span className='text-gray-400'>{item.paymentMethod}</span></p>
                 </div>
               </div>
 

@@ -46,7 +46,7 @@ const Orders = ({token}) => {
 
   return (
     <div>
-      <h3>Orders Page</h3>
+      <h3 className='text-center font-semibold text-2xl'>{allOrders.length > 0? 'All Orders' : 'Not any order has been placed yet!'}</h3>
       <div>
         {
           allOrders.map((order, index) => ( //map 1

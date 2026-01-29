@@ -1,4 +1,5 @@
 import { Order } from "../models/order.models.js";
+import { User } from '../models/user.models.js'
 import razorpay from 'razorpay'
 
 const currency = 'inr';
@@ -28,6 +29,7 @@ const placeOrderCOD = async (req, res) => {
         }
         
         const newOrder = await Order.create(orderData)
+        await User.findByIdAndUpdate(userId, {cart: {}})
 
         return res
         .status(200)
@@ -89,9 +91,18 @@ const verifyRazorpay = async (req, res) => {
         const { userId, razorpay_order_id } = req.body
 
         const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id)
-        console.log(orderInfo);
+        // console.log(orderInfo);
         
-        
+        if(orderInfo.status === 'paid') {
+            await Order.findByIdAndUpdate(orderInfo.receipt, {payment: true})
+            await User.findByIdAndUpdate(userId, {cart: {}})
+
+            return res.json({success: true, message: "Payment Successfull"})
+
+        } else {
+            return res.json({success: false, message: "Payment failed"})
+        }
+    
     } catch (error) {
         console.log(error);
         res.status(500).json({success: false, message: error.message})

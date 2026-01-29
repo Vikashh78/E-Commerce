@@ -21,17 +21,14 @@ const Login = () => {
     try {
       if(currState === 'Sign Up') {
         const response = await axios.post(backendURL+'/api/user/register', {name, email, password});
-        
+
         if(response.data.success) {
           setToken(response.data.token)
           localStorage.setItem('token', response.data.token)
           toast.success(response.data.message)
         }
-        else {
-          toast.error(response.data.message)
-        }
-        
       }
+
       else { //login
         const response = await axios.post(backendURL+'/api/user/login', {email, password})
 
@@ -39,14 +36,12 @@ const Login = () => {
           setToken(response.data.token)
           localStorage.setItem('token', response.data.token)
           toast.success(response.data.message)
-        } else {
-          toast.error(response.data.message)
-        }
+        } 
       }
       
     } catch (error) {
       console.log(error);
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 

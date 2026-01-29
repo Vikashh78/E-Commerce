@@ -25,6 +25,8 @@ const PlaceOrder = () => {
     phone: ''
   })
 
+
+  // API to verify razorpay payemnt
   const initPay = (order) => {
     const options = {
       key: import.meta.env.VITE_RAZORPAY_API_KEY,
@@ -35,12 +37,29 @@ const PlaceOrder = () => {
       order_id: order.id,
       receipt: order.receipt,
       handler: async (response) => {
-        console.log(response)
+        // console.log(response)
+        try {
+          const { data } = await axios.post(backendURL+'/api/order/verifyRazorpay', response, {headers: {token}})
+          // console.log(data);
+          
+          if(data.success) {
+            setCartItems({})
+            navigate('/orders')
+          } else {
+            toast.error(data.message)
+          }
+
+        } catch (error) {
+          console.log(error);
+          toast.error(error.message)
+        }
       }
     }
     const rzp = new window.Razorpay(options) 
     rzp.open()
   }
+
+
 
   const onChangeHandler = (e) => {
     const name = e.target.name
@@ -77,7 +96,7 @@ const PlaceOrder = () => {
         case 'cod': 
           const response = await axios.post(backendURL+'/api/order/cod', orderData, {headers: {token}});
           if(response.data.success) {
-            // setCartItems({})
+            setCartItems({})
             navigate('/orders')
             toast.success(response.data.message)
           } else {
@@ -87,14 +106,14 @@ const PlaceOrder = () => {
 
         case 'razorpay':
           const responseRazorpay = await axios.post(backendURL+'/api/order/razorpay', orderData, {headers: {token}})
+          // console.log(responseRazorpay);
           if(responseRazorpay.data.success) {
-            initPay(responseRazorpay.data);
+            initPay(responseRazorpay.data.order);
           }
         break;
 
       }
       
-
     } catch (error) {
       console.log(error);
       toast.error(error.message)
