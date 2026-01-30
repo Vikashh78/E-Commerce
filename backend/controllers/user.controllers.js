@@ -5,7 +5,7 @@ import { generateToken } from '../utils/token.utils.js'
 import jwt from 'jsonwebtoken'
 
 
-// Route for user login
+// API for user login
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body
@@ -50,7 +50,7 @@ const loginUser = async (req, res) => {
     }
 }
 
-// Route for register user
+// API for register user
 const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body
@@ -107,7 +107,7 @@ const registerUser = async (req, res) => {
 
 }
 
-// Route for admin login
+// API for admin login
 const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body
@@ -134,8 +134,57 @@ const adminLogin = async (req, res) => {
     }
 }
 
+// API for user details
+const userDeatils = async (req, res) => {
+    try {
+        const { userId } = req.body
+
+        const user = await User.findById(userId).select('-password')
+        
+        return res.status(200).json({success:true, message:"User details", user})
+
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({success: false, message: error.message})
+    }
+}
+
+// API for update user password
+const updatePassword = async (req, res) => {
+    try {
+        const { userId, oldPassword, newPassword, cnfmPassword } = req.body
+
+        if(newPassword.length < 8) {
+            return res.status(401).json({success: false, message: "Password length must be greater or equal to 8"})
+        }
+        if(newPassword !== cnfmPassword) {
+            return res.status(401).json({success:false, message: "Confirm password should match with new password!"})
+        }
+
+        const user = await User.findById(userId);
+        const isMatched = await bcrypt.compare(oldPassword, user.password)
+
+        if(isMatched) {
+            const salt = await bcrypt.genSalt(10)
+            const newHashedPassword = await bcrypt.hash(newPassword, salt)
+            await User.updateOne({password: newHashedPassword})
+
+            return res.status(200).json({success:true, message:'Password updated successfully'})
+
+        } else {
+            return res.status(401).json({success:false, message:"Invalid old password"})
+        }
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({success:false, message:error.message})
+    }
+}
+
 export {
     loginUser,
     registerUser,
-    adminLogin
+    adminLogin,
+    userDeatils,
+    updatePassword
 }
