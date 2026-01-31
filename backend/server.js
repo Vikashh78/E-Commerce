@@ -9,14 +9,6 @@ import cartRouter from './routes/cart.routes.js'
 import orderRouter from './routes/order.routes.js'
 import http from 'http'
 
-/* STEPS: BASIC
-    1. import express, cors 
-    2. App, port config
-    3. middleware setup
-    4. API endpoint setup
-    5. server listening setup
-*/
-
 //.2
 const app = express()
 const port = process.env.PORT || 4000
