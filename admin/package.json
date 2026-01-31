@@ -1,0 +1,7 @@
+{
+  "name": "admin",
+  "private": true,
+  "scripts": {
+    "build": "cd vite-project && npm ci && npm run build"
+  }
+}
