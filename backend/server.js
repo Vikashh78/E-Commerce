@@ -7,6 +7,7 @@ import userRouter from './routes/user.routes.js'
 import productRouter from './routes/product.routes.js'
 import cartRouter from './routes/cart.routes.js'
 import orderRouter from './routes/order.routes.js'
+import http from 'http'
 
 /* STEPS: BASIC
     1. import express, cors 
@@ -19,6 +20,7 @@ import orderRouter from './routes/order.routes.js'
 //.2
 const app = express()
 const port = process.env.PORT || 4000
+const server = http.createServer(app)
 
 connectDB()
 connectCloudinary()
@@ -42,6 +44,10 @@ app.get('/api/status', (req, res) => {
 
 
 //.5
-app.listen(port, () => {
-    console.log('Server is listening on port', port);
-})
+if(process.env.NODE_ENV !== "production") {
+    server.listen(port, () => (
+        console.log(`Server is running on PORT ${port}`)
+    ))
+}
+
+export default server;
