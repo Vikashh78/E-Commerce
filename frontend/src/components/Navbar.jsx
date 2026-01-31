@@ -68,6 +68,10 @@ const Navbar = () => {
             <img src={assets.cart_icon} alt="" className='w-5 min-w-5'/>
             <p className='absolute -right-1.25 -bottom-1.25 w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]'>{getCartCount()}</p>
           </Link>
+
+          <div>
+            {token && <img onClick={logoutUser} src={assets.logout_icon} alt="" className='w-5 min-w-5 hidden sm:block cursor-pointer'/>}
+          </div>
           
           {/* for mobile phones */}
           <img onClick={() => setVisible(true)}
@@ -82,10 +86,10 @@ const Navbar = () => {
             <img src={assets.dropdown_icon} alt=""  className='h-4 rotate-180 cursor-pointer'/>
             <p>Back</p>
           </div>
-          {token && <NavLink onClick={() => setVisible(false)} className='py-1 pl-6 border border-black-1px border-b-0' to="/">HOME</NavLink>}
-          {token && <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border border-black-1px border-b-0' to="/collection">COLLECTION</NavLink>}
-          {token && <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border border-black-1px border-b-0' to="/about">ABOUT</NavLink>}
-          {token && <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border border-black-1px' to="/contact">CONTACT</NavLink>}
+          <NavLink onClick={() => setVisible(false)} className='py-1 pl-6 border border-black-1px border-b-0' to="/">HOME</NavLink>
+          <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border border-black-1px border-b-0' to="/collection">COLLECTION</NavLink>
+          <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border border-black-1px border-b-0' to="/about">ABOUT</NavLink>
+          <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border border-black-1px' to="/contact">CONTACT</NavLink>
           {token && <p onClick={logoutUser} className='py-2 pl-6 border border-black-1px'>LOGOUT</p>}
         </div>
       </div>
