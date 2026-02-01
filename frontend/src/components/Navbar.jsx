@@ -16,6 +16,14 @@ const Navbar = () => {
     navigate('/login')
   }
 
+  const handleProfile = () => {
+    if (token) {
+      navigate('/my-profile')
+    } else {
+      navigate('/login')
+    }
+  }
+
 
   return (
     <div className='flex items-center justify-between py-5 font-medium'>
@@ -47,21 +55,12 @@ const Navbar = () => {
       </ul>
 
       <div className='flex items-center gap-6'>
-          <img onClick={token? null : ()=>navigate('/login')} src={assets.search_icon} alt="" className='w-5 cursor-pointer'/>
+          <img onClick={()=>setShowSearch(prev => !prev)} src={assets.search_icon} alt="" className='w-5 cursor-pointer'/>
 
           <div className='group relative'>
-            <img onClick={()=>navigate('/login')} 
+            <img onClick={handleProfile} 
               src={assets.profile_icon} alt=""  className='w-5 cursor-pointer'
             />
-            {/* Drowpdown menu */}
-            {token && 
-              <div className='absolute right-0 pt-4 hidden group-hover:block dropdown-menu'> 
-              <div onClick={()=>navigate('/my-profile')} className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-200 text-gray-700 rounded shadow-lg'>
-                <p className='cursor-pointer hover:text-black'>My Profile</p>
-                <p onClick={()=>navigate('/orders')} className='cursor-pointer hover:text-black'>Orders</p>
-                <p onClick={logoutUser} className='cursor-pointer hover:text-black'>Logout</p>
-              </div>
-            </div>}
           </div>
 
           <Link to="/cart" className='relative'> 

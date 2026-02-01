@@ -10,15 +10,15 @@ const Profile = () => {
 
   const { backendURL, token, navigate } = useContext(ShopContext);
 
-  const [name, setName] = useState('your name')
-  const [email, setEmail] = useState('your@email')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [showchangePassword, setShowchangePassword] = useState(false)
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [cnfmPassword, setCnfmPassword] = useState('')
 
   // API call to get user details
-  const userDetails = async (token) => {
+  const userDetails = async () => {
     try {
       const response = await axios.post(backendURL + '/api/user/profile', {}, { headers: { token } })
       if (response.data.success) {
@@ -61,10 +61,10 @@ const Profile = () => {
 
 
   useEffect(() => {
-    if (!token && localStorage.getItem('token')) {
-      userDetails(localStorage.getItem('token'))
+    if (token) {
+      userDetails()
     }
-  }, [token])
+  }, [token, name, email])
 
   return (
     <div>
